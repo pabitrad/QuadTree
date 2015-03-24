@@ -44,16 +44,16 @@
             </MenuItem>
 
             <MenuItem Header="_Automate" FontSize="14">
-                <MenuItem Header="_Image --> QuadTree"/>
+                <MenuItem Header="_Image --> QuadTree" Click="MenuItem_Click_ImageToQuadTree"/>
                 <MenuItem Header="_QuadTree --> Image"/>
             </MenuItem>
             <MenuItem Header="_Exit" FontSize="14" Click="MenuItem_Click_Exit"/>
         </Menu>
             <StackPanel></StackPanel>
         <DockPanel>
-            <Grid Name="DisplayImage"  DockPanel.Dock="Left" Background="LightYellow" Width="800" Height="800">
+            <Grid Name="DisplayImage"  DockPanel.Dock="Left" Background="LightYellow" Width="600" Height="600">
             </Grid>
-            <Canvas AllowDrop="True" Name="DisplayArea" Background="LightBlue" MouseLeftButtonDown="displayArea_MouseLeftButtonDown"
+            <Canvas AllowDrop="True" Name="DisplayArea" Width="935" Background="LightBlue" MouseLeftButtonDown="displayArea_MouseLeftButtonDown"
                MouseMove="displayArea_MouseMove" MouseLeftButtonUp="displayArea_MouseLeftButtonUp"/>
         </DockPanel>
     </DockPanel>

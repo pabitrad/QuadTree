@@ -24,7 +24,7 @@ namespace QuadTree
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int NODE_DIMENSION = 60;
+        private int NODE_DIMENSION = 20;
         private enum QuadTreeNode
         {
             None,
@@ -145,6 +145,16 @@ namespace QuadTree
         private void MenuItem_Click_CloseQuadTree(object sender, RoutedEventArgs e)
         {
             DisplayArea.Children.Clear();
+        }
+
+        private void MenuItem_Click_ImageToQuadTree(object sender, RoutedEventArgs e)
+        {
+            if (_manager.IsDataLoaded() == false)
+            {
+                MessageBox.Show("Please load image file.", "QuadTree");
+                return;
+            }
+            _manager.drwaQuadTree(DisplayArea);
         }
 
         private void displayArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -270,7 +280,7 @@ namespace QuadTree
             Canvas.SetLeft(lable, pt.X + NODE_DIMENSION + 3);
             Canvas.SetTop(lable, pt.Y + (NODE_DIMENSION / 2 - 5));
 
-            DisplayArea.Children.Add(lable);
+            //DisplayArea.Children.Add(lable);
             renderShape.Tag = lable; // attach to Ellipse
 
             dragBehaviorEllipse.Dragging += dragBehaviorEllipse_Dragging;

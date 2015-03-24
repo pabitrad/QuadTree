@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Controls;
 
 using Microsoft.Win32;
+using System.Windows;
 
 namespace QuadTree
 {
@@ -39,6 +41,15 @@ namespace QuadTree
             }
 
             return colourName;
+        }
+
+        public void drwaQuadTree(Canvas canvas)
+        {
+            QuadTreeImp quadTree = new QuadTreeImp(_points, _rows, _columns, 0, Direction.ROOT);
+            quadTree = quadTree.createQuardTree();
+
+            quadTree.Position = getRootNodePosition(canvas);
+            quadTree.draw(canvas);
         }
 
         public void loadData(string fileName)
@@ -87,6 +98,12 @@ namespace QuadTree
             _points = null;
             _rows = 0;
             _columns = 0;
+        }
+
+        private Point getRootNodePosition(Canvas canvas)
+        {
+            return new Point(400, 20);
+            //return new Point(canvas.Width / 2, 20);
         }
     }
 }
