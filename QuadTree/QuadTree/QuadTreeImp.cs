@@ -73,19 +73,21 @@ namespace QuadTree
         private int NODE_DIMENSION = 20;
 
         Color _rootColor;
+        Canvas _canvas;
 
         QuadTreeImp _northWest = null;
         QuadTreeImp _northEast = null;
         QuadTreeImp _southWest = null;
         QuadTreeImp _southEast = null;
 
-        public QuadTreeImp(int[,] points, int rows, int columns, int depth, Direction direction)
+        public QuadTreeImp(int[,] points, int rows, int columns, int depth, Direction direction, Canvas canvas)
         {
             _points = points;
             _rows = rows;
             _columns = columns;
             _depth = depth;
             _rootDirection = direction;
+            _canvas = canvas;
         }
 
         public Point Position
@@ -107,19 +109,19 @@ namespace QuadTree
             if (_rootColor == Colors.Gray)
             {
                 int[,] _pointsNW = getPoints(Direction.NW);
-                QuadTreeImp qtNW = new QuadTreeImp(_pointsNW, _rows/2, _columns/2, _depth + 1, Direction.NW);
+                QuadTreeImp qtNW = new QuadTreeImp(_pointsNW, _rows/2, _columns/2, _depth + 1, Direction.NW, _canvas);
                 _northWest = qtNW.createQuardTree();
 
                 int[,] _pointsSW = getPoints(Direction.SW);
-                QuadTreeImp qtSW = new QuadTreeImp(_pointsSW, _rows / 2, _columns / 2, _depth + 1, Direction.SW);
+                QuadTreeImp qtSW = new QuadTreeImp(_pointsSW, _rows / 2, _columns / 2, _depth + 1, Direction.SW, _canvas);
                 _southWest = qtSW.createQuardTree();
 
                 int[,] _pointsSE = getPoints(Direction.SE);
-                QuadTreeImp qtSE = new QuadTreeImp(_pointsSE, _rows / 2, _columns / 2, _depth + 1, Direction.SE);
+                QuadTreeImp qtSE = new QuadTreeImp(_pointsSE, _rows / 2, _columns / 2, _depth + 1, Direction.SE, _canvas);
                 _southEast = qtSE.createQuardTree();
 
                 int[,] _pointsNE = getPoints(Direction.NE);
-                QuadTreeImp qtNE = new QuadTreeImp(_pointsNE, _rows / 2, _columns / 2, _depth + 1, Direction.NE);
+                QuadTreeImp qtNE = new QuadTreeImp(_pointsNE, _rows / 2, _columns / 2, _depth + 1, Direction.NE, _canvas);
                 _northEast = qtNE.createQuardTree();
             }
 
@@ -290,23 +292,23 @@ namespace QuadTree
 
             if (_depth > 0)
             {
-            //int factor = _depth * 40;
+                double nodeWidth = _canvas.Width / Math.Pow(QT_NODE_CAPACITY, _depth);
                 switch (direction)
                 {
                     case Direction.NW:
-                        _position.X = nodePosition.X - 200 / _depth;
+                        _position.X = nodePosition.X - (nodeWidth * 1.5);
                         break;
 
                     case Direction.SW:
-                        _position.X = nodePosition.X - 100 / _depth;
+                        _position.X = nodePosition.X - (nodeWidth * 0.5);
                         break;
 
                     case Direction.SE:
-                        _position.X = nodePosition.X + 100 / _depth;
+                        _position.X = nodePosition.X + (nodeWidth * 0.5);
                         break;
 
                     case Direction.NE:
-                        _position.X = nodePosition.X + 200 / _depth;
+                        _position.X = nodePosition.X + (nodeWidth * 1.5);
                         break;
                 }
             }

@@ -51,9 +51,8 @@
         </Menu>
             <StackPanel></StackPanel>
         <DockPanel>
-            <Grid Name="DisplayImage"  DockPanel.Dock="Left" Background="LightYellow" Width="600" Height="600">
-            </Grid>
-            <Canvas AllowDrop="True" Name="DisplayArea" Width="935" Background="LightBlue" MouseLeftButtonDown="displayArea_MouseLeftButtonDown"
+            <Grid Name="DisplayImage"  DockPanel.Dock="Left" Background="LightYellow" Width="600" Height="600" Margin="0,81,0,103"/>
+            <Canvas AllowDrop="True" Name="DisplayArea" Width="800" Background="LightBlue" MouseLeftButtonDown="displayArea_MouseLeftButtonDown"
                MouseMove="displayArea_MouseMove" MouseLeftButtonUp="displayArea_MouseLeftButtonUp"/>
         </DockPanel>
     </DockPanel>

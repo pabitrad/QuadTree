@@ -45,7 +45,7 @@ namespace QuadTree
 
         public void drwaQuadTree(Canvas canvas)
         {
-            QuadTreeImp quadTree = new QuadTreeImp(_points, _rows, _columns, 0, Direction.ROOT);
+            QuadTreeImp quadTree = new QuadTreeImp(_points, _rows, _columns, 0, Direction.ROOT, canvas);
             quadTree = quadTree.createQuardTree();
 
             quadTree.Position = getRootNodePosition(canvas);
@@ -102,8 +102,8 @@ namespace QuadTree
 
         private Point getRootNodePosition(Canvas canvas)
         {
-            return new Point(400, 20);
-            //return new Point(canvas.Width / 2, 20);
+            //return new Point(400, 20);
+            return new Point(canvas.Width / 2, 20);
         }
     }
 }
