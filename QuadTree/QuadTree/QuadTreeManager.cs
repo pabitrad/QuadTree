@@ -17,6 +17,7 @@ namespace QuadTree
         
         private int _rows = 0;
         private int _columns = 0;
+        QuadTreeImp _quadTree;
 
         public int Rows
         {
@@ -45,11 +46,11 @@ namespace QuadTree
 
         public void drwaQuadTree(Canvas canvas)
         {
-            QuadTreeImp quadTree = new QuadTreeImp(_points, _rows, _columns, 0, Direction.ROOT, canvas);
-            quadTree = quadTree.createQuardTree();
+            _quadTree = new QuadTreeImp(_points, _rows, _columns, 0, Direction.ROOT, canvas);
+            _quadTree = _quadTree.createQuardTree();
 
-            quadTree.Position = getRootNodePosition(canvas);
-            quadTree.draw(canvas);
+            _quadTree.Position = getRootNodePosition(canvas);
+            _quadTree.draw(canvas);
         }
 
         public void loadData(string fileName)
@@ -102,7 +103,6 @@ namespace QuadTree
 
         private Point getRootNodePosition(Canvas canvas)
         {
-            //return new Point(400, 20);
             return new Point(canvas.Width / 2, 20);
         }
     }

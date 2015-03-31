@@ -70,7 +70,7 @@ namespace QuadTree
         private Point _position;
         private Direction _rootDirection;
 
-        private int NODE_DIMENSION = 20;
+        private int NODE_DIMENSION = 15;
 
         Color _rootColor;
         Canvas _canvas;
@@ -220,18 +220,20 @@ namespace QuadTree
         private void drawNode(Canvas canvas, Color nodeColor)
         {
             Shape renderShape = new Ellipse() { Width = NODE_DIMENSION, Height = NODE_DIMENSION };
-
             LinearGradientBrush brush = new LinearGradientBrush();
+            brush.StartPoint = new Point(0, 1);
+            brush.EndPoint = new Point(1, 1);
             if (nodeColor == Colors.Black || nodeColor == Colors.White)
             {
                 brush.GradientStops.Add(new GradientStop(nodeColor, 1.0));
+
             }
             else if (nodeColor == Colors.Gray)
             {
                 brush.GradientStops.Add(new GradientStop(Colors.White, 0.5));
                 brush.GradientStops.Add(new GradientStop(Colors.Black, 0.5));
 
-                //renderShape.RenderTransform = new RotateTransform(-45);
+//                renderShape.RenderTransform = new RotateTransform(-45);
             }
             renderShape.Fill = brush;
 
@@ -274,7 +276,7 @@ namespace QuadTree
 
         void drawArrow(Canvas canvas, Point fromPosition, Point toPosition)
         {
-            ArrowLine arrow = new ArrowLine() { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = 3 };
+            ArrowLine arrow = new ArrowLine() { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = 1.5 };
             arrow.X1 = fromPosition.X;
             arrow.Y1 = fromPosition.Y;
 
@@ -308,7 +310,7 @@ namespace QuadTree
                         break;
 
                     case Direction.NE:
-                        _position.X = nodePosition.X + (nodeWidth * 1.5);
+                        _position.X = nodePosition.X + (nodeWidth * 1.46);
                         break;
                 }
             }

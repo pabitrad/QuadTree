@@ -1,13 +1,13 @@
 ﻿<Window x:Class="QuadTree.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="QuadTree" Height="860" Width="1750">
+        Title="QuadTree" Height="660" Width="1215">
         <DockPanel>
             <!--// Width="Auto" Height="20" Background="#FFA9D1F4" DockPanel.Dock="Top";-->
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Load" FontSize="14">
                     <MenuItem Header="_Load Image" Click="MenuItem_Click_LoadImage"/>
-                    <MenuItem Header="_Load QuadTree"/>
+                    <MenuItem Header="_Load QuadTree (Pre-Order)"/>
             </MenuItem>
 
                 <!--<MenuItem Header="_Edit" FontSize="14">
@@ -23,15 +23,31 @@
 
             <MenuItem Header="_Display" FontSize="14">
                 <MenuItem Header="_Image" Click="MenuItem_Click_DisplayImage"/>
-                    <MenuItem Header="_QuadTree"/>
+                <MenuItem Header="_QuadTree" Click="MenuItem_Click_DisplayQuadTree"/>
                 </MenuItem>
+                
 
-                <MenuItem Header="_Save" FontSize="14">
-                <MenuItem Header="_Image" Click="MenuItem_Click_SaveImage"/>
-                    <MenuItem Header="_QuadTree"/>
+            <MenuItem Header="_Format" FontSize="14">
+                <MenuItem Header="Node Size">
+                    <MenuItem Header="Small" Click="MenuItem_Click_FormatNodeSmall"/>
+                    <MenuItem Header="Medium" Click="MenuItem_Click_FormatNodeMedium"/>
+                    <MenuItem Header="Large" Click="MenuItem_Click_FormatNodeLarge"/>
                 </MenuItem>
+                <MenuItem Header="Arrow Thickness">
+                    <MenuItem Header="1.5"/>
+                    <MenuItem Header="2"/>
+                    <MenuItem Header="3"/>                    
+                </MenuItem>
+            </MenuItem>
+                
 
-                <MenuItem Header="_Clear" FontSize="14">
+            <MenuItem Header="_Save" FontSize="14">
+                <MenuItem Header="_Image (PNG)" Click="MenuItem_Click_SaveImage"/>
+                <MenuItem Header="_QuadTree (PNG)" Click="MenuItem_Click_SaveQuadTree"/>
+                <MenuItem Header="_QuadTree (Pre-Order)" />
+            </MenuItem>
+
+            <MenuItem Header="_Clear" FontSize="14">
                     <MenuItem Header="_Image" Click="MenuItem_Click_CloseImage"/>
                 <MenuItem Header="_QuadTree" Click="MenuItem_Click_CloseQuadTree"/>
                 </MenuItem>
@@ -47,11 +63,15 @@
                 <MenuItem Header="_Image --> QuadTree" Click="MenuItem_Click_ImageToQuadTree"/>
                 <MenuItem Header="_QuadTree --> Image"/>
             </MenuItem>
+
+
+
+
             <MenuItem Header="_Exit" FontSize="14" Click="MenuItem_Click_Exit"/>
         </Menu>
             <StackPanel></StackPanel>
         <DockPanel>
-            <Grid Name="DisplayImage"  DockPanel.Dock="Left" Background="LightYellow" Width="600" Height="600" Margin="0,81,0,103"/>
+            <Grid Name="DisplayImage"  DockPanel.Dock="Left" Background="LightYellow" Width="400" Height="400"/>
             <Canvas AllowDrop="True" Name="DisplayArea" Width="800" Background="LightBlue" MouseLeftButtonDown="displayArea_MouseLeftButtonDown"
                MouseMove="displayArea_MouseMove" MouseLeftButtonUp="displayArea_MouseLeftButtonUp"/>
         </DockPanel>

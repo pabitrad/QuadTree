@@ -24,7 +24,7 @@ namespace QuadTree
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int NODE_DIMENSION = 20;
+        private int NODE_DIMENSION = 15;
         private enum QuadTreeNode
         {
             None,
@@ -67,7 +67,7 @@ namespace QuadTree
             {
                 _manager.loadData(dlg.FileName);
 
-                MessageBox.Show("Data loaded sucessfully!");
+//                MessageBox.Show("Data loaded sucessfully!");
 
                 displayImage();
             }
@@ -84,6 +84,47 @@ namespace QuadTree
                 MessageBox.Show("Please load image file.", "QuadTree");
             }
         }
+
+
+
+
+        private void MenuItem_Click_DisplayQuadTree(object sender, RoutedEventArgs e)
+        {
+            if (_manager.IsDataLoaded() == true)
+            {
+                _manager.drwaQuadTree(DisplayArea);
+            }
+            else
+            {
+                MessageBox.Show("Please load image file.", "QuadTree");
+            }
+        }
+
+
+
+
+        private void MenuItem_Click_FormatNodeLarge(object sender, RoutedEventArgs e)
+        {
+                    NODE_DIMENSION = 30;
+        }
+
+
+        private void MenuItem_Click_FormatNodeMedium(object sender, RoutedEventArgs e)
+        {
+            NODE_DIMENSION = 23;
+        }
+
+
+        private void MenuItem_Click_FormatNodeSmall(object sender, RoutedEventArgs e)
+        {
+            NODE_DIMENSION = 15;
+        }
+
+
+
+
+
+
 
         private void MenuItem_Click_DrawWhiteNode(object sender, RoutedEventArgs e)
         {
@@ -130,13 +171,47 @@ namespace QuadTree
             }
         }
 
+
+
+
+
+
+        private void MenuItem_Click_SaveQuadTree(object sender, RoutedEventArgs e)
+        {
+            if (DisplayArea.Children.Count > 0)
+            {
+                SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+
+                //dlg.DefaultExt = ".png";
+                dlg.Filter = "PNG Files (*.png)|*.png";
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                Nullable<bool> result = dlg.ShowDialog();
+
+                if (result == true)
+                {
+                    Utility.CreateBitmapFromVisual(DisplayArea, dlg.FileName);
+                    MessageBox.Show("Image Saved sucessfully!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("There is no image to save.", "QuadTree");
+            }
+        }
+
+
+
+
+
+
         private void MenuItem_Click_CloseImage(object sender, RoutedEventArgs e)
         {
             DisplayImage.Children.Clear();
             DisplayImage.RowDefinitions.Clear();
             DisplayImage.ColumnDefinitions.Clear();
 
-           // _manager.cleraData(); // TO CLEAR EVERYTHING FOREVER
+           _manager.cleraData(); // TO CLEAR EVERYTHING FOREVER
 
             //DisplayImage.ShowGridLines = false;
         }
@@ -177,7 +252,7 @@ namespace QuadTree
             if (_selectedNode == QuadTreeNode.Arrow)
             {
                 Point P1 = e.GetPosition(DisplayArea);
-                _animationLine = new MovableLine(DisplayArea) { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = 3 };
+                _animationLine = new MovableLine(DisplayArea) { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = 1.5 };
                 _animationLine.X1 = P1.X;
                 _animationLine.Y1 = P1.Y;
                 DisplayArea.Children.Add(_animationLine);
@@ -228,7 +303,7 @@ namespace QuadTree
                 return;
             }
 
-            MovableLine lineTobeAdded = new MovableLine(DisplayArea) { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = 3 };
+            MovableLine lineTobeAdded = new MovableLine(DisplayArea) { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = 1.5 };
             lineTobeAdded.X1 = _animationLine.X1;
             lineTobeAdded.Y1 = _animationLine.Y1;
 
@@ -250,7 +325,7 @@ namespace QuadTree
             DisplayArea.Children.Add(lineTobeAdded.FrontConnector);
             DisplayArea.Children.Add(lineTobeAdded.TailConnector);
 
-            //lineTobeAdded.addToDragList();
+            lineTobeAdded.addToDragList(); //Dragging
         }
 
 

@@ -27,8 +27,10 @@ namespace QuadTree
             // Describes the brush's color using RGB values.  
             // Each value has a range of 0-255.
 
-            brush.Color = Color.FromArgb(255, 255, 255, 0);
-            //brush.Opacity = 0.25;
+            brush.Color = Color.FromArgb(255, 255, 255, 255);
+            // Light Blue = 173,216,230
+            // Yellow = 255, 255, 255, 0
+            brush.Opacity = .25;
             FrontConnector.Fill = brush;
             TailConnector.Fill = brush;
 
