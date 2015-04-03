@@ -7,7 +7,7 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Load" FontSize="14">
                     <MenuItem Header="_Load Image" Click="MenuItem_Click_LoadImage"/>
-                    <MenuItem Header="_Load QuadTree (Pre-Order)"/>
+                    <MenuItem Header="_Load QuadTree (Pre-Order)" Click="MenuItem_Click_LoadQuadTreeFromPreOrderText"/>
             </MenuItem>
 
                 <!--<MenuItem Header="_Edit" FontSize="14">
@@ -44,7 +44,8 @@
             <MenuItem Header="_Save" FontSize="14">
                 <MenuItem Header="_Image (PNG)" Click="MenuItem_Click_SaveImage"/>
                 <MenuItem Header="_QuadTree (PNG)" Click="MenuItem_Click_SaveQuadTree"/>
-                <MenuItem Header="_QuadTree (Pre-Order)" />
+                <MenuItem Header="_QuadTree (Pre-Order)" Click="MenuItem_Click_SavePreOrderText"/>
+                <MenuItem Header="_Image (Pre-Order)" Click="MenuItem_Click_SavePreOrderTextFromImage"/>
             </MenuItem>
 
             <MenuItem Header="_Clear" FontSize="14">
@@ -61,7 +62,7 @@
 
             <MenuItem Header="_Automate" FontSize="14">
                 <MenuItem Header="_Image --> QuadTree" Click="MenuItem_Click_ImageToQuadTree"/>
-                <MenuItem Header="_QuadTree --> Image"/>
+                <MenuItem Header="_QuadTree --> Image" Click="MenuItem_Click_QuadTreeToImage"/>
             </MenuItem>
 
 

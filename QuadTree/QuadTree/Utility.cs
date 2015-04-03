@@ -68,6 +68,27 @@ namespace QuadTree
             }
         }
 
+        public static void SaveText(string text, string filename)
+        {
+            File.WriteAllText(filename, text);
+        }
 
+        public static void SaveMatrix(int[,] matrix, string fileName)
+        {
+            int rows = matrix.GetLength(0);
+            int columns = matrix.GetLength(1);
+
+            string strMatrix = string.Empty;
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    strMatrix += (matrix[i, j] + " ");
+                }
+                strMatrix += Environment.NewLine;
+            }
+
+            File.WriteAllText(fileName, strMatrix);
+        }
     }
 }

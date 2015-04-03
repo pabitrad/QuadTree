@@ -33,38 +33,3 @@ C:\Projects\Ryan\From client\Updated 30-03-2015\Updated\Draft 13\QuadTree\QuadTr
 C:\Projects\Ryan\From client\Updated 30-03-2015\Updated\Draft 13\QuadTree\QuadTree\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
 C:\Projects\Ryan\From client\Updated 30-03-2015\Updated\Draft 13\QuadTree\QuadTree\obj\Debug\QuadTree.exe
 C:\Projects\Ryan\From client\Updated 30-03-2015\Updated\Draft 13\QuadTree\QuadTree\obj\Debug\QuadTree.pdb
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\QuadTree.exe.config
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\QuadTree.exe
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\QuadTree.pdb
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\QuadTree.exe
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\QuadTree.pdb
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\Microsoft.Expression.Interactions.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\System.Windows.Interactivity.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\Microsoft.Expression.Interactions.xml
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\System.Windows.Interactivity.xml
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\de\Microsoft.Expression.Interactions.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\en\Microsoft.Expression.Interactions.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\es\Microsoft.Expression.Interactions.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\fr\Microsoft.Expression.Interactions.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\it\Microsoft.Expression.Interactions.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\ja\Microsoft.Expression.Interactions.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\ko\Microsoft.Expression.Interactions.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\zh-Hans\Microsoft.Expression.Interactions.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\zh-Hant\Microsoft.Expression.Interactions.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\de\System.Windows.Interactivity.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\en\System.Windows.Interactivity.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\es\System.Windows.Interactivity.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\fr\System.Windows.Interactivity.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\it\System.Windows.Interactivity.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\ja\System.Windows.Interactivity.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\ko\System.Windows.Interactivity.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\QuadTree.csprojResolveAssemblyReference.cache
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\MainWindow.baml
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\MainWindow.g.cs
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\App.g.cs
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\QuadTree_MarkupCompile.cache
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\QuadTree.g.resources
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\QuadTree.Properties.Resources.resources
-C:\Projects\Ryan\QuadTree\QuadTree\QuadTree\obj\Debug\QuadTree.csproj.GenerateResource.Cache

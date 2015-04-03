@@ -26,40 +26,6 @@ namespace QuadTree
         SE
     }
 
-    //public class QuadNode
-    //{
-
-    //    private Direction _direction;
-    //    private Color _color;
-
-    //    public Direction Direction
-    //    {
-    //        get
-    //        {
-    //            return _direction;
-    //        }
-    //    }
-
-    //    public Color Color
-    //    {
-    //        get
-    //        {
-    //            return _color;
-    //        }
-    //    }
-
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    /// <param name="direction"></param>
-    //    /// <param name="nodeColor">It can be White, Black or Gray</param>
-    //    public QuadNode(Direction direction, Color nodeColor)
-    //    {
-    //        _direction = direction;
-    //        _color = nodeColor;
-    //    }
-    //}
-
     class QuadTreeImp
     {
         const int QT_NODE_CAPACITY = 4;
@@ -80,6 +46,70 @@ namespace QuadTree
         QuadTreeImp _southWest = null;
         QuadTreeImp _southEast = null;
 
+        public QuadTreeImp NorthWest
+        {
+            get
+            {
+                return _northWest;
+            }
+        }
+
+        public QuadTreeImp NorthEast
+        {
+            get
+            {
+                return _northEast;
+            }
+        }
+
+        public QuadTreeImp SouthWest
+        {
+            get
+            {
+                return _southWest;
+            }
+        }
+
+        public QuadTreeImp SouthEast
+        {
+            get
+            {
+                return _southEast;
+            }
+        }
+
+        public Color RootColor
+        {
+            get
+            {
+                return _rootColor;
+            }
+        }
+
+        public int[,] Points
+        {
+            get
+            {
+                return _points;
+            }
+        }
+
+        public int Rows
+        {
+            get
+            {
+                return _rows;
+            }
+        }
+
+        public int Columns
+        {
+            get
+            {
+                return _columns;
+            }
+        }
+
         public QuadTreeImp(int[,] points, int rows, int columns, int depth, Direction direction, Canvas canvas)
         {
             _points = points;
@@ -90,6 +120,15 @@ namespace QuadTree
             _canvas = canvas;
         }
 
+        public QuadTreeImp(int rows, int columns, int depth, Direction direction, Canvas canvas)
+        {
+            _rows = rows;
+            _columns = columns;
+            _depth = depth;
+            _rootDirection = direction;
+            _canvas = canvas;
+        }
+		
         public Point Position
         {
             set 
@@ -128,7 +167,29 @@ namespace QuadTree
             return this;
         }
 
-        int[,] getPoints(Direction direction)
+        public QuadTreeImp createQuardTree(ref string preOrderText)
+        {
+            _rootColor = getNodeColor(ref preOrderText);
+
+            if (_rootColor == Colors.Gray)
+            {
+                QuadTreeImp qtNW = new QuadTreeImp(_rows / 2, _columns / 2, _depth + 1, Direction.NW, _canvas);
+                _northWest = qtNW.createQuardTree(ref preOrderText);
+
+                QuadTreeImp qtSW = new QuadTreeImp(_rows / 2, _columns / 2, _depth + 1, Direction.SW, _canvas);
+                _southWest = qtSW.createQuardTree(ref preOrderText);
+
+                QuadTreeImp qtSE = new QuadTreeImp(_rows / 2, _columns / 2, _depth + 1, Direction.SE, _canvas);
+                _southEast = qtSE.createQuardTree(ref preOrderText);
+
+                QuadTreeImp qtNE = new QuadTreeImp(_rows / 2, _columns / 2, _depth + 1, Direction.NE, _canvas);
+                _northEast = qtNE.createQuardTree(ref preOrderText);
+			}
+			
+			return this;
+		}
+		
+        private int[,] getPoints(Direction direction)
         {
             int rows = _rows / 2;
             int columns = _columns / 2;
@@ -164,7 +225,7 @@ namespace QuadTree
             return points;
         }
 
-        Color getNodeColor()
+        private Color getNodeColor()
         {
             int firstPoint = _points[0, 0];
             for (int i = 0; i < _rows; i++)
@@ -186,6 +247,30 @@ namespace QuadTree
             return Colors.Black;
         }
 
+        private Color getNodeColor(ref string preOrderText)
+		{
+            preOrderText = preOrderText.Trim();
+
+            string subStr = preOrderText.Substring(0, 1);
+            preOrderText = preOrderText.Remove(0, 1);
+
+            int color = Convert.ToInt32(subStr);
+			if (color == 2)
+			{
+				return Colors.Gray;
+			}
+			else if (color == 1)
+			{
+				return Colors.Black;
+			}
+			else if (color == 0)
+			{
+				return Colors.White;
+			}
+			
+			return Colors.White;
+		}
+		
         public void draw(Canvas canvas)
         {
             drawNode(canvas, _rootColor);
@@ -226,14 +311,11 @@ namespace QuadTree
             if (nodeColor == Colors.Black || nodeColor == Colors.White)
             {
                 brush.GradientStops.Add(new GradientStop(nodeColor, 1.0));
-
             }
             else if (nodeColor == Colors.Gray)
             {
                 brush.GradientStops.Add(new GradientStop(Colors.White, 0.5));
                 brush.GradientStops.Add(new GradientStop(Colors.Black, 0.5));
-
-//                renderShape.RenderTransform = new RotateTransform(-45);
             }
             renderShape.Fill = brush;
 
@@ -289,7 +371,7 @@ namespace QuadTree
         void setPosition(Direction direction, Point nodePosition)
         {
             _position = new Point();
-            _position.Y = nodePosition.Y + _depth * 50;
+            _position.Y = nodePosition.Y +_depth * 50;
             _position.X = nodePosition.X;
 
             if (_depth > 0)
@@ -313,6 +395,127 @@ namespace QuadTree
                         _position.X = nodePosition.X + (nodeWidth * 1.46);
                         break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Compute matrix from quad tree
+        /// </summary>
+        public void computeMatrix()
+        {
+            if (NorthWest != null)
+            {
+                if (NorthWest.RootColor == Colors.Gray)
+                {
+                    NorthWest.computeMatrix();
+                }
+                else
+                {
+                    NorthWest.setMatrix(NorthWest.RootColor);
+                }
+            }
+
+            if (SouthWest != null)
+            {
+                if (SouthWest.RootColor == Colors.Gray)
+                {
+                    SouthWest.computeMatrix();
+                }
+                else
+                {
+                    SouthWest.setMatrix(SouthWest.RootColor);
+                }
+            }
+
+            if (SouthEast != null)
+            {
+                if (SouthEast.RootColor == Colors.Gray)
+                {
+                    SouthEast.computeMatrix();
+                }
+                else
+                {
+                    SouthEast.setMatrix(SouthEast.RootColor);
+                }
+            }
+
+            if (NorthEast != null)
+            {
+                if (NorthEast.RootColor == Colors.Gray)
+                {
+                    NorthEast.computeMatrix();
+                }
+                else
+                {
+                    NorthEast.setMatrix(NorthEast.RootColor);
+                }
+            }
+
+            mergeMatrices();
+        }
+
+        private void setMatrix(Color rootColor)
+        {
+            _points = new int[_rows, _columns];
+            if (rootColor == Colors.White)
+            {
+                fillMatrix(0);
+            }
+            else if (rootColor == Colors.Black)
+            {
+               fillMatrix(1);
+            }
+        }
+
+        private void fillMatrix(int number)
+        {
+            for (int i = 0; i < _rows; i++)
+            {
+                for (int j = 0; j < _columns; j++ )
+                {
+                    _points[i, j] = number;
+                }
+            }
+        }
+
+        private void mergeMatrices()
+        {
+            int rowStartIndex = 0;
+            int columnStartIndex = 0;
+
+            if (NorthWest._points != null && SouthWest._points != null && SouthEast._points != null && NorthEast._points != null)
+            {
+               _points = new int[_rows, _columns];
+
+               //Add North west points
+               for (int i = 0; i < _rows/2; i++)
+                   for (int j = 0; j < _columns/2; j++)
+                   {
+                       _points[i, j] = NorthWest._points[i, j];
+                   }
+
+               columnStartIndex = _columns / 2;
+               //Add North east points
+               for (int i = 0; i < _rows / 2; i++)
+                   for (int j = 0; j < _columns / 2; j++)
+                   {
+                       _points[i, columnStartIndex + j] = NorthEast._points[i, j];
+                   }
+
+               rowStartIndex = _rows / 2;
+               //Add South west points
+               for (int i = 0; i < _rows / 2; i++)
+                   for (int j = 0; j < _columns / 2; j++)
+                   {
+                       _points[rowStartIndex + i, j] = SouthWest._points[i, j];
+                   }
+
+               //Add South east points
+               for (int i = 0; i < _rows / 2; i++)
+                   for (int j = 0; j < _columns / 2; j++)
+                   {
+                       _points[rowStartIndex + i, columnStartIndex + j] = SouthEast._points[i, j];
+                   }
             }
         }
     }

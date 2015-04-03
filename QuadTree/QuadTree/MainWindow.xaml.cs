@@ -40,6 +40,7 @@ namespace QuadTree
         private QuadTreeNode _selectedNode = QuadTreeNode.None;
 
         private QuadTreeManager _manager = new QuadTreeManager();
+        private ImageMatrix _imageMatrix;
 
         public MainWindow()
         {
@@ -66,13 +67,27 @@ namespace QuadTree
             if (result == true)
             {
                 _manager.loadData(dlg.FileName);
-
-//                MessageBox.Show("Data loaded sucessfully!");
+                _imageMatrix = new ImageMatrix(_manager.Points, _manager.Rows, _manager.Columns);
 
                 displayImage();
             }
         }
+		
+		private void MenuItem_Click_LoadQuadTreeFromPreOrderText(object sender, RoutedEventArgs e)
+		{
+            OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
+            // Set filter for file extension and default file extension 
+            //dlg.DefaultExt = ".png";
+            dlg.Filter = "Text Files (.txt)|*.txt";
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+			if (result == true)
+            {
+                _manager.drwaQuadTree(DisplayArea, dlg.FileName);
+			}
+		}
+		
         private void MenuItem_Click_DisplayImage(object sender, RoutedEventArgs e)
         {
             if (_manager.IsDataLoaded() == true)
@@ -120,12 +135,6 @@ namespace QuadTree
             NODE_DIMENSION = 15;
         }
 
-
-
-
-
-
-
         private void MenuItem_Click_DrawWhiteNode(object sender, RoutedEventArgs e)
         {
             _selectedNode = QuadTreeNode.White;
@@ -171,10 +180,50 @@ namespace QuadTree
             }
         }
 
+        private void MenuItem_Click_SavePreOrderText(object sender, RoutedEventArgs e)
+        {
+            if (_manager.QuadTree != null)
+            {
+                string preOrdertext = _manager.generatePreOrderText();
+                SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                dlg.Filter = "Text Files (*.txt)|*.txt";
 
+                // Display OpenFileDialog by calling ShowDialog method 
+                Nullable<bool> result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    Utility.SaveText(preOrdertext, dlg.FileName);
+                    MessageBox.Show("Pre-Order Text Saved sucessfully!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("There is no QuadTree to save.", "QuadTree");
+            }
+        }
 
+        private void MenuItem_Click_SavePreOrderTextFromImage(object sender, RoutedEventArgs e)
+        {
+            if (_imageMatrix != null)
+            {
+                string preOrdertext = _imageMatrix.generatePreOrderText();
+                SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                dlg.Filter = "Text Files (*.txt)|*.txt";
 
+                // Display OpenFileDialog by calling ShowDialog method 
+                Nullable<bool> result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    Utility.SaveText(preOrdertext, dlg.FileName);
+                    MessageBox.Show("Pre-Order Text Saved sucessfully!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("There is no Image Matrix to save.", "QuadTree");
+            }
 
+        }
 
         private void MenuItem_Click_SaveQuadTree(object sender, RoutedEventArgs e)
         {
@@ -200,11 +249,6 @@ namespace QuadTree
             }
         }
 
-
-
-
-
-
         private void MenuItem_Click_CloseImage(object sender, RoutedEventArgs e)
         {
             DisplayImage.Children.Clear();
@@ -212,14 +256,13 @@ namespace QuadTree
             DisplayImage.ColumnDefinitions.Clear();
 
            _manager.cleraData(); // TO CLEAR EVERYTHING FOREVER
-
-            //DisplayImage.ShowGridLines = false;
         }
 
 
         private void MenuItem_Click_CloseQuadTree(object sender, RoutedEventArgs e)
         {
             DisplayArea.Children.Clear();
+            _manager.clearQuadTree();
         }
 
         private void MenuItem_Click_ImageToQuadTree(object sender, RoutedEventArgs e)
@@ -230,6 +273,26 @@ namespace QuadTree
                 return;
             }
             _manager.drwaQuadTree(DisplayArea);
+        }
+
+        private void MenuItem_Click_QuadTreeToImage(object sender, RoutedEventArgs e)
+        {
+            _manager.convertQuadTreeToMatrix();
+            displayImage();
+
+            if (_manager.Points != null)
+            {
+                SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                dlg.Filter = "Text Files (*.txt)|*.txt";
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                Nullable<bool> result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    Utility.SaveMatrix(_manager.Points, dlg.FileName);
+                    //MessageBox.Show("Pre-Order Text Saved sucessfully!");
+                }
+            }
         }
 
         private void displayArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

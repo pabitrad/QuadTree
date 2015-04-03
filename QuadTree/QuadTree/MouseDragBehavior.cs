@@ -12,7 +12,7 @@ namespace QuadTree
 {
     public class MouseDragBehavior : Behavior<UIElement>
     {
-        private Point elementStartPosition;
+        //private Point elementStartPosition;
         private Point mouseStartPosition;
         private TranslateTransform transform = new TranslateTransform();
 
