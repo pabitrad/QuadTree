@@ -41,10 +41,26 @@ namespace QuadTree
 
         private QuadTreeManager _manager = new QuadTreeManager();
         private ImageMatrix _imageMatrix;
+        TextBlock _label; // Craete lable to display X and Y co-ordinates
 
         public MainWindow()
         {
             InitializeComponent();
+
+            createLable();
+        }
+
+        /// <summary>
+        /// Create lable to display X and Y co-ordinate of shape
+        /// </summary>
+        private void createLable()
+        {
+            _label = new TextBlock { Text = string.Empty };
+
+            Canvas.SetLeft(_label, DisplayArea.Width - 120);
+            Canvas.SetTop(_label, 5);
+
+            DisplayArea.Children.Add(_label);
         }
 
         private void MenuItem_Click_Exit(object sender, RoutedEventArgs e)
@@ -100,9 +116,6 @@ namespace QuadTree
             }
         }
 
-
-
-
         private void MenuItem_Click_DisplayQuadTree(object sender, RoutedEventArgs e)
         {
             if (_manager.IsDataLoaded() == true)
@@ -115,20 +128,15 @@ namespace QuadTree
             }
         }
 
-
-
-
         private void MenuItem_Click_FormatNodeLarge(object sender, RoutedEventArgs e)
         {
                     NODE_DIMENSION = 30;
         }
 
-
         private void MenuItem_Click_FormatNodeMedium(object sender, RoutedEventArgs e)
         {
             NODE_DIMENSION = 23;
         }
-
 
         private void MenuItem_Click_FormatNodeSmall(object sender, RoutedEventArgs e)
         {
@@ -138,7 +146,6 @@ namespace QuadTree
         private void MenuItem_Click_DrawWhiteNode(object sender, RoutedEventArgs e)
         {
             _selectedNode = QuadTreeNode.White;
-
         }
 
         private void MenuItem_Click_DrawBlackNode(object sender, RoutedEventArgs e)
@@ -222,7 +229,6 @@ namespace QuadTree
             {
                 MessageBox.Show("There is no Image Matrix to save.", "QuadTree");
             }
-
         }
 
         private void MenuItem_Click_SaveQuadTree(object sender, RoutedEventArgs e)
@@ -252,12 +258,11 @@ namespace QuadTree
         private void MenuItem_Click_CloseImage(object sender, RoutedEventArgs e)
         {
             DisplayImage.Children.Clear();
-            DisplayImage.RowDefinitions.Clear();
-            DisplayImage.ColumnDefinitions.Clear();
+            //DisplayImage.RowDefinitions.Clear();
+            //DisplayImage.ColumnDefinitions.Clear();
 
            _manager.cleraData(); // TO CLEAR EVERYTHING FOREVER
         }
-
 
         private void MenuItem_Click_CloseQuadTree(object sender, RoutedEventArgs e)
         {
@@ -295,13 +300,111 @@ namespace QuadTree
             }
         }
 
+        private void MenuItem_CoordinateShow(object sender, RoutedEventArgs e)
+        {
+            _label.Visibility = Visibility.Visible;
+        }
+
+        private void MenuItem_CoordinateHide(object sender, RoutedEventArgs e)
+        {
+            _label.Visibility = Visibility.Hidden;            
+        }
+
+        private void MenuItem_Click_CompareQuadTree(object sender, RoutedEventArgs e)
+        {
+            // Select First Quad Tree
+            string firstImageFile = getImageFile("Select First Quad Tree");
+            if (string.IsNullOrWhiteSpace(firstImageFile))
+            {
+                MessageBox.Show("Please load valid image file.", "QuadTree");
+            }
+            _manager.loadData(firstImageFile);
+            displayImage();
+            _manager.drwaQuadTree(DisplayArea);
+
+            int rowsFirstMatrix = _manager.Rows;
+            int columnsFirstMatrix = _manager.Columns;
+
+            //Select Second Quad Tree
+            string secondImageFile = getImageFile("Select Second Quad Tree");
+            if (string.IsNullOrWhiteSpace(secondImageFile))
+            {
+                MessageBox.Show("Please load valid image file.", "QuadTree");
+            }
+
+            int[,] firstMatrix = MatrixManager.CloneData(_manager.Points); //store matrix data before clear
+            //Clear screen to display send image file.
+            MenuItem_Click_CloseImage(null, null);
+            MenuItem_Click_CloseQuadTree(null, null);
+
+            _manager.loadData(secondImageFile);
+            displayImage();
+            _manager.drwaQuadTree(DisplayArea);
+
+            int[,] secondMatrix = _manager.Points;
+
+            int rowsSecondMatrix = _manager.Rows;
+            int columnsSecondMatrix = _manager.Columns;
+
+            bool equalDimensionWise = (rowsFirstMatrix == rowsSecondMatrix) && (columnsFirstMatrix == columnsSecondMatrix);
+
+            bool equalStructureWise = false;
+            if (equalDimensionWise)
+            {
+                equalStructureWise = MatrixManager.CompareMetrices(firstMatrix, secondMatrix);
+            }
+            else
+            {
+                MessageBox.Show("The Image files are not identical in dimension wise.", "QuadTree");
+                return;
+            }
+
+            if (equalStructureWise)
+            {
+                MessageBox.Show("The Image files are identical both dimension wise and structure wise.", "QuadTree");
+            }
+            else if (equalDimensionWise)
+            {
+                MessageBox.Show("The Image files are identical in dimension wise and but not structure wise.", "QuadTree");
+            }
+            else
+            {
+                MessageBox.Show("The trees are not identical.", "QuadTree");
+            }
+        }
+
+        private string getImageFile(string windowTitle)
+        {
+            OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.Title = windowTitle;
+            dlg.Filter = "Text Files (.txt)|*.txt";
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                return dlg.FileName;
+            }
+            return null;
+        }
+
         private void displayArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Retrieve the coordinate of the mouse position.
             mouseStartPosition = e.GetPosition(DisplayArea);
             Point pt= e.GetPosition((UIElement)sender);
-            // Perform the hit test against a given portion of the visual object tree.
             HitTestResult result = VisualTreeHelper.HitTest(DisplayArea, pt);
+
+            if (result.VisualHit is Shape)
+            {
+                _label.Text = getLabelText(pt);
+                return;
+            }
+
+            // Perform the hit test against a given portion of the visual object tree.
             if (!(result.VisualHit is Canvas))
             {
                 return;
@@ -328,6 +431,9 @@ namespace QuadTree
             double pointY = e.GetPosition(DisplayArea).Y - NODE_DIMENSION / 2;
 
             LinearGradientBrush brush = new LinearGradientBrush();
+            brush.StartPoint = new Point(0, 1);
+            brush.EndPoint = new Point(1, 1);
+
             if (_selectedNode == QuadTreeNode.Black || _selectedNode == QuadTreeNode.White)
             {
                 Color color = Colors.White;
@@ -344,7 +450,6 @@ namespace QuadTree
                 brush.GradientStops.Add(new GradientStop(Colors.Black, 0.5));
 
                 Ellipse ellipse = renderShape as Ellipse;
-                ellipse.RenderTransform = new RotateTransform(-45);
             }
             renderShape.Fill = brush;
 
@@ -391,7 +496,6 @@ namespace QuadTree
             lineTobeAdded.addToDragList(); //Dragging
         }
 
-
         private void displayArea_MouseMove(object sender, MouseEventArgs e)
         {
             if (_selectedNode != QuadTreeNode.Arrow)
@@ -412,15 +516,16 @@ namespace QuadTree
             MouseDragElementBehavior dragBehaviorEllipse = new MouseDragElementBehavior();
             dragBehaviorEllipse.Attach(renderShape);
 
-            TextBlock lable = new TextBlock { Text = "X = " + pt.X + ", Y = " + pt.Y };
-            lable.RenderTransform = new TranslateTransform();
+            //TextBlock lable = new TextBlock { Text = "X = " + pt.X + ", Y = " + pt.Y };
+            //lable.RenderTransform = new TranslateTransform();
 
-            Canvas.SetLeft(lable, pt.X + NODE_DIMENSION + 3);
-            Canvas.SetTop(lable, pt.Y + (NODE_DIMENSION / 2 - 5));
+            //Canvas.SetLeft(lable, pt.X + NODE_DIMENSION + 3);
+            //Canvas.SetTop(lable, pt.Y + (NODE_DIMENSION / 2 - 5));
 
             //DisplayArea.Children.Add(lable);
-            renderShape.Tag = lable; // attach to Ellipse
+            //renderShape.Tag = lable; // attach to Ellipse
 
+            _label.Text = getLabelText(pt);
             dragBehaviorEllipse.Dragging += dragBehaviorEllipse_Dragging;
 
             dragBehaviorEllipse.DragFinished += dragBehaviorEllipse_DragFinished; ;
@@ -446,12 +551,12 @@ namespace QuadTree
             Ellipse node = e.Source as Ellipse;
             if (node != null)
             {
-                TextBlock label = node.Tag as TextBlock;
-                TranslateTransform labelTrans = label.RenderTransform as TranslateTransform;
-                labelTrans.X = diff.X;
-                labelTrans.Y = diff.Y;
+                //TextBlock label = node.Tag as TextBlock;
+                //TranslateTransform labelTrans = label.RenderTransform as TranslateTransform;
+                //labelTrans.X = diff.X;
+                //labelTrans.Y = diff.Y;
 
-                label.Text = getLabelText(curPoint);
+                _label.Text = getLabelText(curPoint);
             }
         }
 
@@ -462,12 +567,13 @@ namespace QuadTree
 
         private string getLabelText(Point pt)
         {
-            //Point labelPoint = new Point(pt.X, pt.Y + (NODE_DIMENSION / 2 - 5));
             string lableText = "X = " + pt.X + ", Y = " + pt.Y;
 
             return lableText;
         }
-
+        /// <summary>
+        /// Display selected image file
+        /// </summary>
         private void displayImage()
         {
             if (DisplayImage.Children.Count > 0)
@@ -529,8 +635,6 @@ namespace QuadTree
             exampleRectangle.Fill = myBrush;
 
             DisplayImage.Children.Add(exampleRectangle);
-            //DisplayImage.
-            //DisplayImage.ShowGridLines = true;
         }
     }
 }

@@ -78,7 +78,7 @@ namespace QuadTree
             int rows = matrix.GetLength(0);
             int columns = matrix.GetLength(1);
 
-            string strMatrix = string.Empty;
+            string strMatrix = rows.ToString() + " " + columns.ToString() + " 1 0" + Environment.NewLine;
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)

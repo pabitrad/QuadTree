@@ -65,8 +65,12 @@
                 <MenuItem Header="_QuadTree --> Image" Click="MenuItem_Click_QuadTreeToImage"/>
             </MenuItem>
 
+            <MenuItem Header="_Compare Quad Tree" FontSize="14" Click="MenuItem_Click_CompareQuadTree"/>
 
-
+            <MenuItem Header="Co-ordinate" FontSize="14">
+                <MenuItem Header="Show" Click="MenuItem_CoordinateShow"/>
+                <MenuItem Header="Hide" Click="MenuItem_CoordinateHide"/>
+            </MenuItem>
 
             <MenuItem Header="_Exit" FontSize="14" Click="MenuItem_Click_Exit"/>
         </Menu>

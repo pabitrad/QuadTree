@@ -59,6 +59,7 @@
     <Compile Include="ArrowLine.cs" />
     <Compile Include="ArrowLineBase.cs" />
     <Compile Include="ImageMatrix.cs" />
+    <Compile Include="MatrixManager.cs" />
     <Compile Include="MouseDragBehavior.cs" />
     <Compile Include="MovableLine.cs" />
     <Compile Include="QuadTreeImp.cs" />

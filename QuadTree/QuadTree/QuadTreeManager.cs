@@ -150,7 +150,7 @@ namespace QuadTree
 
         public string generatePreOrderText()
         {
-            _preOrderText = _rows.ToString() + " " + _columns.ToString() + Environment.NewLine; //Add row and column dimension
+            _preOrderText = _rows.ToString() + " " + _columns.ToString() + " 1 0" + Environment.NewLine; //Add row and column dimension
             if (_quadTree != null)
             {
                 addToPreOrderText(_quadTree);
